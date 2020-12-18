@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "debian/buster64"
   config.vm.hostname = "postgresql"
 
-  config.vm.network "forwarded_port", guest: 5000, host: 5423, protocol: "tcp", host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 5000, host: 5000, protocol: "tcp", host_ip: "127.0.0.1", auto_correct: true
 
   config.vm.provider "virtualbox" do |vb|
      vb.gui = false
