@@ -1,0 +1,19 @@
+/**
+ * vagrant.sql
+ * Copyright(C) 2020 marcos-ro <marcosroropeza@gmail.com>
+ *
+ * Distributed under terms of MIT license
+ **/
+
+CREATE USER {{ user_name }}
+	WITH
+		SUPERUSER 
+		CREATEROLE
+		NOREPLICATION
+		LOGIN
+		NOINHERIT
+		ENCRYPTED PASSWORD {{ user_password }};
+
+CREATE DATABASE {{ user_name }}
+  WITH
+    OWNER {{ user_name }};

@@ -1,0 +1,56 @@
+- name: PostgreSQL installation
+  apt: name=postgresql state=present
+
+- name: postgresql.conf config
+  vars:
+    listen_addresses: '*'
+    port: 5000
+    max_connections: 30
+    ram_memory: 1024
+  template:
+    src: postgresql.conf.j2
+    dest: /etc/postgresql/11/main/postgresql.conf
+    owner: postgres
+    group: postgres
+    mode: '0644'
+
+- name: pg_hba.conf config
+  vars:
+    database: 'vagrant'
+    role: 'vagrant'
+    address: '127.0.0.1/32'
+    method: 'scram-sha-256'
+  file:
+    src: pg_hba.conf.j2
+    dest: /etc/postgresql/11/main/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: '0640'
+
+- name: restart postgresql
+  shell: sudo su postgres -c "/usr/lib/postgresql/11/bin/pg_ctl -D /var/lib/postgresql/11/main restart > /tmp/posrgresql.log"
+
+- name: touch vagrant.sql file
+  file:
+    path: /tmp/vagrant.sql
+    state: touch
+    owner: postgres
+    group: postgres
+    mode: '0740'
+
+- name: config vagrant.sql file
+  vars:
+    user_name: vagrant
+    user_password: "'vagrant'"
+  template:
+    src: vagrant.sql.j2
+    dest: /tmp/vagrant.sql
+    owner: postgres
+    group: postgres
+    mode: '0740'
+
+- name: execute vagrant.sql file
+  shell: sudo su postgres -c "psql -f /tmp/vagrant.sql"
+
+- name: delete vagrant.sql file
+  shell: rm /tmp/vagrant.sql
