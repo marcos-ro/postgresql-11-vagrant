@@ -30,14 +30,6 @@
 - name: restart postgresql
   shell: sudo su postgres -c "/usr/lib/postgresql/11/bin/pg_ctl -D /var/lib/postgresql/11/main restart > /tmp/posrgresql.log"
 
-- name: touch vagrant.sql file
-  file:
-    path: /tmp/vagrant.sql
-    state: touch
-    owner: postgres
-    group: postgres
-    mode: '0740'
-
 - name: config vagrant.sql file
   vars:
     user_name: vagrant
