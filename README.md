@@ -1,4 +1,4 @@
-# PostgreSQL 11 on Debian Buster 10
+# PostgreSQL 13 on Debian Buster 10
 ## Login
 
 * database: vagrant

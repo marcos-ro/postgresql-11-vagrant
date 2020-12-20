@@ -1,7 +1,20 @@
-- name: PostgreSQL installation
-  apt: name=postgresql state=present
+- name: Requirements
+  apt: name={{ item }} state=present
+  with_items:
+    - curl
+    - ca-certificates
+    - gnupg
 
-- name: postgresql.conf config
+- name: PGDG Config
+  shell: |
+    curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - &&
+    echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main"\
+    > /etc/apt/sources.list.d/pgdg.list
+
+- name: PostgreSQL Software
+  apt: name=postgresql-13 state=present update_cache=yes
+
+- name: PostgreSQL postgresql.conf
   vars:
     listen_addresses: '*'
     port: 5000
@@ -9,12 +22,12 @@
     ram_memory: 1024
   template:
     src: postgresql.conf.j2
-    dest: /etc/postgresql/11/main/postgresql.conf
+    dest: /etc/postgresql/13/main/postgresql.conf
     owner: postgres
     group: postgres
     mode: '0644'
 
-- name: pg_hba.conf config
+- name: PostgreSQL pg_hba.conf
   vars:
     database: 'vagrant'
     role: 'vagrant'
@@ -22,15 +35,16 @@
     method: 'scram-sha-256'
   template:
     src: pg_hba.conf.j2
-    dest: /etc/postgresql/11/main/pg_hba.conf
+    dest: /etc/postgresql/13/main/pg_hba.conf
     owner: postgres
     group: postgres
     mode: '0640'
 
-- name: restart postgresql
-  shell: sudo su postgres -c "/usr/lib/postgresql/11/bin/pg_ctl -D /var/lib/postgresql/11/main restart > /tmp/posrgresql.log"
+- name: PostgreSQL restart
+  shell: |
+    sudo su postgres -c "/usr/lib/postgresql/13/bin/pg_ctl -D /var/lib/postgresql/13/main restart"
 
-- name: config vagrant.sql file
+- name: PostgreSQL upload vagrant.sql
   vars:
     user_name: vagrant
     user_password: "'vagrant'"
@@ -41,8 +55,7 @@
     group: postgres
     mode: '0740'
 
-- name: execute vagrant.sql file
-  shell: sudo su postgres -c "psql -f /tmp/vagrant.sql"
-
-- name: delete vagrant.sql file
-  shell: rm /tmp/vagrant.sql
+- name: PostgreSQL exec vagrant.sql
+  shell: |
+    sudo su postgres -c "psql -f /tmp/vagrant.sql" &&
+    rm /tmp/vagrant.sql
