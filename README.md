@@ -9,11 +9,12 @@
 
 ## How to install?
 ```bash
-username@hostname:/path/to/repo> git clone https://github.com/marcos-ro/postgresql-box && cd postgresql-box
-username@hostname:/path/to/repo/postgresql-box> vagrant up
+username@hostname:/path/to/repo> git clone https://github.com/marcos-ro/postgresql-13-vagrant
+username@hostname:/path/to/repo> cd postgresql-13-vagrant
+username@hostname:/path/to/repo/postgresql-13-vagrant> vagrant up
 ```
 
 ## How access to VM?
 ```bash
-username@hostname:/path/to/repo/postgresql-box> vagrant ssh
+username@hostname:/path/to/repo/postgresql-13-vagrant> vagrant ssh
 ```
