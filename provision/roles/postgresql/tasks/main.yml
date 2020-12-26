@@ -1,4 +1,5 @@
 - name: Requirements
+  remote_user: root
   apt: name={{ item }} state=present
   with_items:
     - curl
@@ -6,12 +7,14 @@
     - gnupg
 
 - name: PGDG Config
+  remote_user: root
   shell: |
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - &&
     echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main"\
     > /etc/apt/sources.list.d/pgdg.list
 
 - name: PostgreSQL Software
+  remote_user: root
   apt: name=postgresql-13 state=present update_cache=yes
 
 - name: PostgreSQL postgresql.conf
@@ -29,7 +32,7 @@
 
 - name: PostgreSQL pg_hba.conf
   vars:
-    database: 'vagrant'
+    database: 'all'
     role: 'vagrant'
     address: '127.0.0.1/32'
     method: 'scram-sha-256'
@@ -41,8 +44,8 @@
     mode: '0640'
 
 - name: PostgreSQL restart
-  shell: |
-    sudo su postgres -c "/usr/lib/postgresql/13/bin/pg_ctl -D /var/lib/postgresql/13/main restart"
+  remote_user: root
+  shell: systemctl restart postgresql
 
 - name: PostgreSQL upload vagrant.sql
   vars:
@@ -57,5 +60,5 @@
 
 - name: PostgreSQL exec vagrant.sql
   shell: |
-    sudo su postgres -c "psql -f /tmp/vagrant.sql" &&
+    sudo su postgres -c "psql -f /tmp/vagrant.sql > /tmp/vagrant.log 2> /tmp/vagrant.log" &&
     rm /tmp/vagrant.sql
