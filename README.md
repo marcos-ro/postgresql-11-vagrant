@@ -4,7 +4,7 @@
 * database: vagrant
 * role: vagrant
 * password: vagrant
-* host: 127.0.0.1
+* host: 192.168.1.101
 * port: 5000
 
 ## How to install?
