@@ -8,11 +8,13 @@
 
 ## Login
 
-* database: vagrant
-* role: vagrant
-* password: vagrant
-* host: 192.168.1.101
-* port: 5000
+| Name     | Content      |
+|----------|--------------|
+| Database | all          |
+| User     | vagrant      |
+| Password | vagrant      |
+| Host     | 192.168.1.101|
+| Port     | 5000         |
 
 ## How to install?
 ```bash
