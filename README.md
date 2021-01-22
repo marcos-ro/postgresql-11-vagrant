@@ -15,14 +15,12 @@
 | Host     | 192.168.1.101|
 | Port     | 5000         |
 
-## How VM up?
+## How to install?
 ```bash
-user@hostname:~ $ git clone https://github.com/marcos-ro/vagrant-postgresql-13
-user@hostname:~ $ cd vagrant-postgresql-13
-user@hostname:~/vagrant-postgresql-13 $ vagrant up
+user@hostname:~ $ git clone https://github.com/marcos-ro/vagrant-postgresql-13 && cd vagrant-postgresql-13 && vagrant up --destroy-on-error
 ```
 
 ## How access to VM?
 ```bash
-user@hostname: ~/vagrant-postgresql-13 $ vagrant ssh
+user@hostname:~/vagrant-postgresql-13 $ vagrant ssh
 ```
