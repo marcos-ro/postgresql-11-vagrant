@@ -17,10 +17,10 @@
 
 ## How to install?
 ```bash
-user@hostname:~ $ git clone https://github.com/marcos-ro/vagrant-postgresql-13 && cd vagrant-postgresql-13 && vagrant up --destroy-on-error
+git clone https://github.com/marcos-ro/vagrant-postgresql-13 && cd vagrant-postgresql-13 && vagrant up --destroy-on-error
 ```
 
 ## How access to VM?
 ```bash
-user@hostname:~/vagrant-postgresql-13 $ vagrant ssh
+vagrant ssh
 ```
